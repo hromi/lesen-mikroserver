@@ -1,0 +1,3 @@
+pyhocon
+ffmpeg-python
+sanic
