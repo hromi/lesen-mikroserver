@@ -37,10 +37,11 @@ Enter the client directory, install all necessary requirements (```pip3.6 -r req
 
 ```python3.6 app.py 127.0.0.1 WAVE_FILE_HERE.wav```
 
-Note that client.py needs pipinstalled websocket-client and not websocket library to run properly.
+* note that client.py needs pipinstalled websocket-client and not websocket library to run properly.
 
 If You have necessary skills it is highly probably that You are just started an ASR system You always dreamed about. Go buy Yourself a beer.
 
+# Acknowledgments & further support
 Glory to Ukraine, gerojom slava.
 
 When in doubt, RTFM.
