@@ -1,0 +1,42 @@
+<html>
+	<head>
+		<title>Websocket streamer template</title>
+	</head>
+	<body>
+	<script>
+		var mediaRecorder;
+		var host="PUT YOUR HOST HERE";
+		var port=12345;
+		async function newRequest() {
+		  let stream = null;
+		  try {
+			  stream = await navigator.mediaDevices.getUserMedia({audio:true});
+			  mediaRecorder = new MediaRecorder(stream, {
+				mimeType: 'audio/webm'
+			  });
+			  console.log(mediaRecorder);
+			  mediaRecorder.start();
+			  mediaRecorder.addEventListener('dataavailable', (e) => {
+				console.log("new socket connection");
+				socket = new WebSocket("wss://"+host+":"+port+"/api/v1/stt");
+				socket.binaryType = "blob";
+				console.log(e.data);
+				socket.onmessage = function (event) {
+					console.log(event.data);
+					document.getElementById("answer").innerHTML=event.data;
+				}
+				socket.onopen = function (event) {
+					socket.send(e.data);
+				}
+			  });
+		  } catch(err) {
+			console.log(err);
+		  }
+		}
+		</script>
+		<button onclick="newRequest()">Record</button>
+		<button onclick="mediaRecorder.requestData()">Transcribe</button>
+		<h1 id="answer"></h1>
+	</body>
+</html>
+
