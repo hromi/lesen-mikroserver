@@ -3,7 +3,7 @@ from io import BytesIO
 
 import ffmpeg
 import numpy as np
-from stt import Model
+from deepspeech import Model
 
 
 def normalize_audio(audio):
