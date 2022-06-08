@@ -27,13 +27,17 @@ async def healthcheck(_):
     return response.text("Welcome to STT Server!")
 
 
-@app.websocket("/api/v1/stt")
-async def stt(request, ws):
+@app.websocket("/stt/<scorer>")
+async def stt(request, ws, scorer):
+    scorer_file=conf["stt.scorer_dir"]+scorer+".scorer"
+    #logger.debug("SCORER"+scorer_file)
     logger.debug(f"Received {request.method} request at {request.path}")
     try:
         audio = await ws.recv()
         inference_start = perf_counter()
-        text = await app.loop.run_in_executor(executor, lambda: engine.run(audio))
+        text = await app.loop.run_in_executor(executor, lambda: engine.run(audio,scorer_file))
+        #text = await app.loop.run_in_executor(executor, lambda: engine.run(audio))
+        logger.debug(engine.model._impl)
         inference_end = perf_counter() - inference_start
         await ws.send(json.dumps(Response(text, inference_end).__dict__))
         logger.debug(f"Completed {request.method} request at {request.path} in {inference_end} seconds")

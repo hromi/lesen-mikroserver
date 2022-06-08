@@ -18,7 +18,8 @@ def normalize_audio(audio):
             loglevel="error",
             hide_banner=None,
         )
-        .run(input=audio, capture_stdout=True, capture_stderr=True)
+        #.run(input=audio, capture_stdout=True, capture_stderr=True)
+        .run(input=audio, capture_stdout=True)
     )
     if err:
         raise Exception(err)
@@ -30,10 +31,12 @@ class SpeechToTextEngine:
         self.model = Model(model_path)
         self.model.enableExternalScorer(scorer_path)
 
-    def run(self, audio):
+    def run(self, audio, scorer=""):
         audio = normalize_audio(audio)
         audio = BytesIO(audio)
         with wave.Wave_read(audio) as wav:
             audio = np.frombuffer(wav.readframes(wav.getnframes()), np.int16)
+        if (scorer):
+            self.model.enableExternalScorer(scorer)
         result = self.model.stt(audio)
         return result

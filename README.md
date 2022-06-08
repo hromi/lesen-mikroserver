@@ -18,11 +18,12 @@ delegation to Xavier Jetson CUDA / GPU works only when You install the appropria
 (You will also find the wheel You need in wheels subdirectory, install it with ```pip3 install wheels/deepspeech-0.9.0-cp36-cp36m-linux_aarch64.whl```))
 
 # scorers/
-The real stuff begins when You start experimenting with scorers. 
+The real stuff begins when You start experimenting with language models / scorers. 
+
+The "added value" of lesen-mikroserver project (as compared to Coqui or Deepspeech) is that You can route Your requests to different scorers stored in ```scorer_dir```.
 
 Use KenLM to create them and deepspeech scorer creation pipeline to create them.
 
-de_bothLexicons.scorer user canonic list of substantives/verbs used in fibel.digital project (c.f. https://fibel.digital/kleinesLexicon )
 
 # server-HOWTO
 Setup Your server in coqui-server/application.conf.
@@ -32,6 +33,15 @@ enter the coqui-server directory and run
 ```python3.6 app.py```
 
 (Note: You can easily "daemonize" Your newly born ASR system by running it in a tmux session)
+
+#websocket API
+For every recognition act, You open a websocket to sanic route
+
+```/stt/<scorer>````
+
+whereby the ```<scorer>``` parameter needs to be the same as the basename of Your .scorer file stored in ```scorer_dir```.
+
+Example: You have a language model for numeric expressions stored in ```/scorers/numbers.scorer``` whereby ```scorers``` is Your ```scorer_dir```. You have to establish websocket to route ```/stt/numbers```.
 
 # client-HOWTO
 Enter the client directory, install all necessary requirements (```pip3.6 -r requirements.txt install```)* and and run something like
