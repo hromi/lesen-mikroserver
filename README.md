@@ -34,7 +34,7 @@ enter the coqui-server directory and run
 
 (Note: You can easily "daemonize" Your newly born ASR system by running it in a tmux session)
 
-#websocket API
+# websocket API
 For every recognition act, You open a websocket to sanic route
 
 ```/stt/<scorer>````
