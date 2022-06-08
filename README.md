@@ -37,7 +37,7 @@ enter the coqui-server directory and run
 # websocket API
 For every recognition act, You open a websocket to sanic route
 
-```/stt/<scorer>````
+```/stt/<scorer>```
 
 whereby the ```<scorer>``` parameter needs to be the same as the basename of Your .scorer file stored in ```scorer_dir```.
 
