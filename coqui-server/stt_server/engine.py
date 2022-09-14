@@ -49,7 +49,11 @@ class SpeechToTextEngine:
                Path(hmpl).mkdir(parents=True, exist_ok=True)
             f = hmpl+token+"-"+str(time.time())+".wav"
         else:
-            f = "/tmp/"+str(time.time())+".wav"
+            token_dir="/data/tokens/"+token
+            if not os.path.isdir(token_dir):
+               from pathlib import Path
+               Path(token_dir).mkdir(parents=True, exist_ok=True)
+            f = token_dir+"/"+str(time.time())+".wav"
         try:
             audio = normalize_audio(audio,f)
         except:
